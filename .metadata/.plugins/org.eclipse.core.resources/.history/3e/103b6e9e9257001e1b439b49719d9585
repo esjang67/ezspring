@@ -1,0 +1,18 @@
+package com.test.exception;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+//예외발생을 위한 클래스
+@ControllerAdvice
+public class CommonExceptionAdvice {
+	
+	@ExceptionHandler(Exception.class)
+	public String exception(Exception e, Model model) {
+		System.out.println("예외발생 : " + e.getMessage());
+		model.addAttribute("exception", e);
+		
+		return "errorPage";
+	}
+}

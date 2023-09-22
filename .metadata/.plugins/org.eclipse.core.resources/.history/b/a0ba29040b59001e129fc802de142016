@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.board.mapper.BoardMapper">
+	<select id="getListAll" resultType="com.board.domain.BoardVO">
+	<!-- 쿼리문 작성 쿼리문에 <, > 가 있을때는 <![CDATA[]]> []안에 SQL문 적용 -->
+		<![CDATA[
+			SELECT * FROM TBL_BOARD WHERE BNO > 0 order by bno
+		]]>	
+	</select>
+	
+	<insert id="insert">
+		insert into tbl_board(bno, title, content, writer) 
+			values(seq_board.nextval, #{title}, #{content}, #{writer})
+	</insert>
+	
+	<insert id="insertSelectKey">	
+		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
+			select seq_board.nextval from dual
+		</selectKey>
+		
+		insert into tbl_board(bno, title, content, writer)
+			values(#{bno}, #{title}, #{content}, #{writer})
+	</insert>
+	
+	<select id="read" resultType="com.board.domain.BoardVO">
+		select * from tbl_board where bno = #{bno}
+	</select>
+	
+	<delete id="delete" >
+		delete from tbl_board where bno = #{bno}		
+	</delete>
+	
+	<update id="update">
+		update tbl_board set title=#{title}, content=#{content}, writer=#{writer}, updatedate=sysdate where bno=#{bno}
+	</update>
+	
+</mapper>

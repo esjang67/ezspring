@@ -1,0 +1,14 @@
+package com.board.mapper;
+
+import java.util.List;
+
+import com.board.domain.BoardVO;
+
+// 실행할 sql문을 만들 추상메서드 인터페이스
+
+public interface BoardMapper {
+	
+	public List<BoardVO> getListAll();
+	
+	
+}

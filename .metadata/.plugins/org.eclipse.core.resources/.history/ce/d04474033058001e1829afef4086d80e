@@ -1,0 +1,21 @@
+package com.board.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Select;
+
+import com.board.domain.BoardVO;
+
+// 실행할 sql문을 만들 추상메서드 인터페이스
+
+public interface BoardMapper {
+	
+//	@Select("select * from tbl_board where bno > 0 order by bno desc")
+	public List<BoardVO> getListAll();
+	
+	public void insert(BoardVO vo);
+	public void insertSelectKey(BoardVO vo);
+	
+	public BoardVO read(long bno);
+	
+}

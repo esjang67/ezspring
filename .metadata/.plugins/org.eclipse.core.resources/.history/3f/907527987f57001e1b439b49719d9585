@@ -1,0 +1,13 @@
+package com.test.vo;
+
+import java.util.Date;
+
+import lombok.Data;
+
+@Data
+public class BoardVO {
+	
+	private String title;
+	private Date date;
+
+}

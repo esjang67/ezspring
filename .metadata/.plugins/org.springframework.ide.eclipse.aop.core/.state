@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop-reference-model>
+<aop-project name="0921xml"/>
+<aop-project name="0920-j"/>
+<aop-project name="0920-j2"/>
+<aop-project name="0919"/>
+<aop-project name="0920"/>
+<aop-project name="0919java"/>
+</aop-reference-model>
