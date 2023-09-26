@@ -22,14 +22,20 @@ public class MapperTest {
 	private BoardMapper mapper;
 	
 	@Test
-	public void testGetPagint() {
+	public void testGetPaging() {
+		
 		Paging paging = new Paging();
 		
-		paging.setAmount(10);
-		paging.setPageNum(2);
+//		paging.setAmount(10);
+//		paging.setPageNum(2);
 		
-		List<BoardVO> list = mapper.getListWithPaging(paging);
-		list.forEach(b -> log.info(b));
+		paging.setType("CW");
+		paging.setKeyword("ㄴㅇㄹ");
+		
+//		List<BoardVO> list = mapper.getListWithPaging(paging);
+//		list.forEach(b -> log.info(b));
+		
+		log.info(mapper.getTotal(paging));		// 전체갯수(검색어포함)
 	}
 	
 //	@Test

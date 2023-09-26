@@ -40,6 +40,13 @@
               <button data-oper="modify" class="btn btn-primary">수정</button>
               <button data-oper="remove" class="btn btn-danger">삭제</button>
               <button data-oper="list" class="btn btn-default">목록</button>
+              
+              
+			  <input type="hidden" class="type" name="type" value="${paging.type}"> 
+			  <input type="hidden" class="keyword" name="keyword" value="${paging.keyword}">               
+              <input type="hidden" class="pageNum" name="pageNum" value="${paging.pageNum}">
+			  <input type="hidden" class="amount" name="amount" value="${paging.amount}">
+              
 			</form>
          </div>
       </div>
@@ -62,8 +69,12 @@
 			formTag.attr('action', "/board/modify")
 			formTag.attr('method', "post")
 		} else {
-			 location.href='/board/list';
-			 return;
+			const pageNum = $('.pageNum').val();
+			const amount = $('.amount').val();
+			const type = $('.type').val();
+			const keyword = $('.keyword').val();
+			location.href='/board/list?pageNum=' + pageNum + '&amount=' + amount + '&type=' + type + '&keyword=' + keyword ;
+			return;
 		}
 		
 		formTag.submit();
