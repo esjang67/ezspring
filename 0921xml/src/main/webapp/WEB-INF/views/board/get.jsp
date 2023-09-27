@@ -112,8 +112,8 @@
          </div>
          
          <div class='modal-footer'>
-            <button id='modalModBtn' type='button' class='btn btn-warning'>수정</button>
-            <button id='modalRemoveBtn' type='button' class='btn btn-danger'>삭제</button>
+            <button id='modalModBtn' type='button' class='btn btn-warning' data-dismiss='modal'>수정</button>
+            <button id='modalRemoveBtn' type='button' class='btn btn-danger' data-dismiss='modal'>삭제</button>
             <button id='modalRegisterBtn' type='button' class='btn btn-primary' data-dismiss='modal'>등록</button>            
             <button id='modalCloseBtn' type='button' class='btn btn-default' data-dismiss='modal'>닫기</button>
             
@@ -143,6 +143,40 @@
 	const modalRegisterBtn = $('#modalRegisterBtn');
 	
 	
+	modalRemoveBtn.on('click', function(){
+		const rno = modal.data('rno');
+		
+		replyService.remove(rno,
+				function(result){
+
+					//modal.modal('hide');
+					alert(result);
+					
+					modal.find('input').val('');
+					showList(1);
+		})
+	})
+	
+	modalModBtn.on('click', function(){
+		const rno = modal.data('rno')
+		
+		let reply = {
+			rno: rno,
+			reply: modalInputReply.val()
+		}
+		
+		replyService.modify(reply, 
+				function(result){
+					//modal.modal('hide');
+					alert(result);
+					
+					modal.find('input').val('');
+					showList(1);
+			
+				}
+		)
+		
+	})
 	
 	// 댓글달기 버튼 클릭(필요한 버튼, 내용 셋팅후 모달창 띄우기)
 	$('#addReplyBtn').on('click', function(){
@@ -178,6 +212,11 @@
 	$('.chat').on('click', 'li', function(){
 		const rno = $(this).data('rno');	// li 태그에 dataset이 설정되어있음!!
 		// console.log(rno);
+		
+		// 수정, 삭제 할때 rno가 필요하므로 추가함(input hidden으로도 할수 있음)
+		// 모달에 데이터셋 추가 할 수 있음
+		modal.data('rno', rno);
+		// console.log(modal.data('rno'));
 		
 		replyService.get(rno,
 				function(result){
