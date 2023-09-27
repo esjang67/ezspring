@@ -2,6 +2,7 @@ package com.board.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.board.domain.BoardVO;
@@ -27,5 +28,7 @@ public interface BoardMapper {
 	public int update(BoardVO vo);
 	
 	public int getTotal(Paging paging);
+	
+	public void updateReplyCnt(@Param("bno") Long bno, @Param("amount") int amount);
 	
 }

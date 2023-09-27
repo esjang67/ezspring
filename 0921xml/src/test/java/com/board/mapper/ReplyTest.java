@@ -22,6 +22,11 @@ public class ReplyTest {
 	
 	private Long[] bnoArr = {260L, 261L, 262L, 263L, 264L};;
 	
+	@Test
+	public void countTest() {
+		log.info(replyMapper.getCountByBno(264L));
+	}
+	
 //	@Test
 //	public void list() {
 //		List<ReplyVO> list = replyMapper.getListWithPage(new Paging(), bnoArr[0]);
@@ -52,6 +57,15 @@ public class ReplyTest {
 //	@Test
 //	public void readTest() {
 //		log.info(replyMapper.read(4L));
+//	}
+	
+//	@Test
+//	public void inTest() {
+//		Paging paging = new Paging(4,5);
+//		
+//		List<ReplyVO> list = replyMapper.getListWithPage(paging, 264L);
+//		
+//		list.forEach(r -> log.info(r));
 //	}
 	
 //	@Test

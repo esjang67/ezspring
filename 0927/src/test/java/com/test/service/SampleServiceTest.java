@@ -18,14 +18,12 @@ public class SampleServiceTest {
 	
 	@Test
 	public void testTx() {
-		String str = "test";
+		String str = "driver";
 		
 		log.info("str 길이 : " + str.getBytes().length);
 		sampleTxService.insertData(str);
 		
 	}
-	
-	
 	
 //	@Autowired
 //	private SampleService sampleService;

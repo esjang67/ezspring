@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="MapperTest (1)" project="0921xml" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="com.board.mapper.MapperTest" time="0.381">
-    <testcase name="testGetPagint" classname="com.board.mapper.MapperTest" time="0.381"/>
-  </testsuite>
-</testrun>

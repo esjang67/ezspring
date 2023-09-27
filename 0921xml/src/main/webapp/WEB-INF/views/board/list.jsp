@@ -41,7 +41,7 @@
 	               		<td>${board.bno}</td>
 	               		<td>
 	               			<%-- <a href="get?bno=${board.bno}">${board.title}</a> --%>
-	               			<a class="move" href="${board.bno}">${board.title}</a>
+	               			<a class="move" href="${board.bno}">${board.title} [${board.replycnt}]</a>
 	               		</td>
 	               		<td>${board.writer}</td>
 	               		<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate}"/></td>

@@ -2,6 +2,7 @@ package com.test.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.test.mapper.Sample2Mapper;
 import com.test.mapper.SampleMapper;
@@ -18,6 +19,7 @@ public class SampleTxServiceImpl implements SampleTxService {
 	@Autowired
 	private Sample2Mapper sample2Mapper;
 	
+	@Transactional
 	@Override
 	public void insertData(String data) {
 		

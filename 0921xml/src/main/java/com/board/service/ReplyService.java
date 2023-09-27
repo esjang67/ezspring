@@ -2,6 +2,7 @@ package com.board.service;
 
 import java.util.List;
 
+import com.board.domain.PageReplyDTO;
 import com.board.domain.Paging;
 import com.board.domain.ReplyVO;
 
@@ -16,5 +17,7 @@ public interface ReplyService {
 	public int modify(ReplyVO vo);
 	
 	public List<ReplyVO> getList(Paging paging, Long bno);
+	
+	public PageReplyDTO getListPage(Paging paging, Long bno);
 	
 }

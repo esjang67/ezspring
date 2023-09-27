@@ -30,11 +30,11 @@ let replyService = (function() {
     const bno = param.bno;
     const page = param.page || 1; // param.page가 없으면 1으로 
 	
-    // ajax로 해도됨
+    // ajax로 해도됨   
     $.getJSON('/replies/pages/' + bno + '/' + page + '.json',
 	          function(data) {
 	            if(callback){
-	              callback(data);
+	              callback(data.replyCnt, data.list);
 	            }
 	          })
   }

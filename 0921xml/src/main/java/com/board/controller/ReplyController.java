@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.board.domain.PageReplyDTO;
 import com.board.domain.Paging;
 import com.board.domain.ReplyVO;
 import com.board.service.ReplyService;
@@ -48,9 +49,9 @@ public class ReplyController {
 	
 	// get :: http://localhost:8181/replies/pages/261/1.json
 	@GetMapping(value = "/pages/{bno}/{page}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<List<ReplyVO>> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno){
+	public ResponseEntity<PageReplyDTO> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno){
 		Paging paging = new Paging(page, 10);
-		return new ResponseEntity<>(replyService.getList(paging, bno), HttpStatus.OK);
+		return new ResponseEntity<>(replyService.getListPage(paging, bno), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{rno}", produces =  {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
@@ -73,5 +74,7 @@ public class ReplyController {
 				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
 	}
+	
+	
 	
 }

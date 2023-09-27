@@ -22,7 +22,25 @@
 	</update>
 	
 	<select id="getListWithPage" resultType="com.board.domain.ReplyVO">
-		select * from tbl_reply where bno=#{bno} order by rno asc
+		<!-- select * from tbl_reply where bno=#{bno} order by rno asc -->
+		
+		<![CDATA[
+			SELECT RNO, BNO, REPLY, REPLYER, REPLYDATE, UPDATEDATE
+			  FROM (
+			  		SELECT /*INDEX(TBL_REPLY IDX_REPLY)*/ 
+			  			ROWNUM RN, RNO, BNO, REPLY, REPLYER, REPLYDATE, UPDATEDATE
+			  		  FROM TBL_REPLY
+			  		 WHERE BNO=#{bno}
+			  		   and rno > 0
+			  		   and rownum <= #{paging.pageNum} * #{paging.amount}
+			  		)
+			  where rn > ( #{paging.pageNum} - 1 ) * #{paging.amount} 
+		]]>
+		
+	</select>
+	
+	<select id="getCountByBno" resultType="int">
+		select count(*) from tbl_reply where bno=#{bno}
 	</select>
 
 

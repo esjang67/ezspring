@@ -83,6 +83,10 @@
                 -->
             </ul>
          </div>
+         <!-- 댓글 페이지 표시 -->
+         <div class="panel-footer">
+         
+         </div>
       </div>
    </div>
 </div>
@@ -128,6 +132,57 @@
 
 <script type="text/javascript">
 	
+	// 댓글 페이지 버튼 추가
+	let pageNum = 1;
+	const replePageFooter = $('.panel-footer');
+	
+	function showReplyPage(replyCnt){
+		
+		let endNum = Math.ceil(pageNum / 5.0) * 5;
+		let startNum = endNum - 4;
+		
+		let prev = startNum != 1;
+		let next = false;
+		
+		if(endNum * 5 >= replyCnt){
+			endNum = Math.ceil(replyCnt / 5.0);
+		}
+		
+		if(endNum * 5 < replyCnt){
+			next = true;
+		}
+		
+		let str = "<ul class='pagination pull-right'>";
+		if(prev){
+			str += "<li class='page-item'>";
+			str += "  <a class='page-link' href='" + (startNum - 1) + "'>이전</a>";
+			str += "</li>";
+ 		}
+		for(let i=startNum; i<=endNum;i++){
+			let active = pageNum == i ? 'active':'';
+			str += "<li class='page-item " + active + "'>";
+			str += "  <a class='page-link' href='" + i + "'>" + i + "</a>";
+			str += "</li>";
+		}
+		if(next){
+			str += "<li class='page-item'>";
+			str += "  <a class='page-link' href='" + (endNum + 1) + "'>다음</a>";
+			str += "</li>";
+ 		}
+		str += "</ul>";
+		
+		replePageFooter.html(str);
+		
+	}
+	
+	replePageFooter.on('click', 'li a', function(e){
+		e.preventDefault();
+		
+		pageNum = $(this).attr('href');;
+		showList(pageNum);
+	})
+	
+	
 	//게시물 번호 가져오기 
 	const bnoValue = '<c:out value="${board.bno}" />';
 	
@@ -153,7 +208,7 @@
 					alert(result);
 					
 					modal.find('input').val('');
-					showList(1);
+					showList(pageNum);
 		})
 	})
 	
@@ -171,7 +226,7 @@
 					alert(result);
 					
 					modal.find('input').val('');
-					showList(1);
+					showList(pageNum);
 			
 				}
 		)
@@ -203,7 +258,7 @@
 				function(result) {
 					alert(result);
 					modal.find('input').val('');
-					showList(1);
+					showList(-1);
 				}
 		);
 	})
@@ -238,9 +293,10 @@
 		)
 	})
 	
+	
 	const replyUL = $('.chat');
 	
-	showList(1);
+	showList(pageNum);
 	
 	// 댓글관련 작업 추가(reply.js)
 	function showList(page){
@@ -248,7 +304,18 @@
 		// 서버에서 데이터 가져옴
 		replyService.getList(
 				{bno:bnoValue, page:page || 1},
-				function(list){
+				
+				function(replyCnt, list){
+					
+					// console.log(list);
+					
+					// page -1이면 마지막 페이지로 이동시켜줌(추가했을때...)
+					if(page == -1){
+						pageNum = Math.ceil(replyCnt / 5.0);
+						showList(pageNum);
+						return;
+					}
+					
 					// 화면출력
 					let str = '';	// 태그 저장용
 					
@@ -269,65 +336,12 @@
 						str += "</li>";							
 					}
 					replyUL.html(str);
+					
+					// page
+					showReplyPage(replyCnt);
 				}
 		)
 	}
-	
-	
-	//console.log(bnoValue);
-/* 	replyService.add(
-		{
-			reply : 'js test',
-			replyer : 'js',
-			bno : bnoValue
-		},
-		function(result){
-			alert("결과: " + result);
-		}
-	
-	); */
-	
-	/* replyService.getList(
-			{ 
-				bno : bnoValue, 
-				page : 1 
-			},
-			function(data){
-				for(let i=0; i<data.length; i++){
-					console.log(data[i]);
-				}
-			}
-	 )*/
-	
-	/* replyService.remove(
-			5,
-			function(result){
-				alert(result);
-			},
-			function(e) {
-				alert("실패");
-			}
-	); */
-	
-	/* replyService.modify(
-		{
-			rno: 7,
-			reply: "modify test"			
-		},
-		function(result){
-			alert(result);
-		},
-		function(e) {
-			alert("실패");
-		}		
-	) */
-	
-	/* replyService.get(
-		7,
-		function(result){
-			console.log(result);
-		}	
-	) */
 	
 	const actionForm = $('#actionForm');
 
