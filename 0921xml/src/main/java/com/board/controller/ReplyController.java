@@ -1,9 +1,5 @@
 package com.board.controller;
 
-import java.util.List;
-
-import javax.print.attribute.standard.Media;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -74,7 +70,5 @@ public class ReplyController {
 				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
 	}
-	
-	
 	
 }

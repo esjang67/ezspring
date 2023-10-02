@@ -42,5 +42,7 @@
    <tx:annotation-driven/>
 
    <mybatis-spring:scan base-package="com.test.mapper" />
+   
+
 		
 </beans>
