@@ -3,6 +3,9 @@ package com.board.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +13,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.board.domain.BoardAttachVO;
 import com.board.domain.BoardVO;
 import com.board.domain.PageDTO;
 import com.board.domain.Paging;
@@ -26,6 +31,12 @@ public class BoardContoller {
 	
 	@Autowired		// 또는 class에 @AllArgsConstructor 써도됨
 	private BoardService boardService;
+	
+	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE )
+	@ResponseBody		// json으로 응답하므로 필요함 아니면 @restcontroller여야함
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno){
+		return new ResponseEntity<>(boardService.getAttachList(bno), HttpStatus.OK);
+	}
 	
 	@GetMapping("/list")
 	public void list(Model model, Paging paging) {

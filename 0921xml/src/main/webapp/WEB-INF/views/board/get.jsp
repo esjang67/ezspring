@@ -4,6 +4,59 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../includes/header.jsp"%>
 
+<style>
+
+   .uploadResult {
+      width: 100%;
+      background-color: gray;
+   }
+   
+   .uploadResult ul {
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+      align-items: center;
+   }
+   
+   .uploadResult ul li {
+      list-style: none;
+      padding: 10px;
+   }
+   
+   .uploadResult ul li img {
+      width: 60px;
+   }
+   
+   .uploadResult ul li span {
+      color: white;
+   }
+   
+   .bigPictureWrapper {
+      position: absolute;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      top: 0%;
+      width: 100%;
+      height: 100%;
+      background-color: gray;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.5);
+   }
+   
+   .bigPicture {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+   
+   .bigPicture img {
+      width: 600px;
+   }
+
+</style>
+
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">Board Detail</h1>
@@ -40,6 +93,16 @@
 						readonly="readonly" value="${board.writer}">
 				</div>
 
+				<div class="form-group">
+					<label>Attach Files</label>
+					
+	               <!-- 첨부파일 -->
+	               <div class="uploadResult">
+		               <ul>
+		               </ul>
+		            </div>
+				</div>
+								
 				<%-- <button class="btn btn-default" onclick="location.href='/board/modify?pageNum=${paging.pageNum}&amount=${paging.amount}&bno=${board.bno}'">게시글 수정</button> --%>
 				<button class="btn btn-default" data-oper="modify">게시글 수정</button>
 				<button class="btn btn-default" data-oper="list">목록</button>
@@ -58,8 +121,14 @@
 	</div>
 </div>
 
-<!-- 댓글 표시 -->
+<!-- 첨부파일 모달창 -->
+<div class="bigPictureWrapper">
+	<div class="bigPicture">
+		<!-- script 요기!! -->
+	</div>
+</div> 
 
+<!-- 댓글 표시 -->
 <div class='row'>
    <div class='col-lg-12'>
       <div class='panel panel-default'>
@@ -129,6 +198,61 @@
 
 <!-- 댓글 관련 함수 선언 reply.js  -->
 <script src="/resources/js/reply.js"></script>	
+
+<script>
+	/* 첨부파일 */
+	
+	const bno = '<c:out value="${board.bno}"/>';
+	
+	$.getJSON('/board/getAttachList', {bno:bno}, function(attachList){
+		
+		let uploadUL = $('.uploadResult ul');
+		let str = '';
+        
+        $(attachList).each(function(i, obj) {
+ 	         
+	        if(obj.fileType) {
+	           let filePath = obj.uploadPath + '/s_' + obj.uuid + '_' + obj.fileName;
+	           filePath = encodeURIComponent(filePath);
+	           
+	           str += '<li data-path="' + obj.uploadPath + '" data-uuid="' + obj.uuid + '" data-filename="' + obj.fileName + '" data-type="' + obj.fileType + '"><div>';
+	           str += '<span>' + obj.fileName + '</span>';
+	           str += '<br>';
+	           str += '<img src="/display?fileName=' + filePath + '">';
+	           str += '</div></li>';
+	        } else {
+	           let filePath = obj.uploadPath + '/' + obj.uuid + '_' + obj.fileName;
+	           filePath = encodeURIComponent(filePath);
+	           
+	           str += '<li data-path="' + obj.uploadPath + '" data-uuid="' + obj.uuid + '" data-filename="' + obj.fileName + '" data-type="' + obj.fileType + '"><div>';
+	           str += '<span>' + obj.fileName + '</span>';
+	           str += '<br>';
+	           str += '<img src="/resources/img/clip.png">';
+	           str += '</div></li>';
+	        }   
+        })
+        
+		uploadUL.append(str);   	
+
+	})
+	
+	$('.uploadResult').on('click', 'li', function(){
+		let path = $(this).data('path') + "/" + $(this).data('uuid') + "_" + $(this).data('filename');
+		path = encodeURIComponent(path);
+		
+		if($(this).data('type')){
+			
+		} else {
+			// 일반파일: 다운로드됨
+			location='/download?fileName=' + path;
+		}
+		
+		
+		
+	})
+	
+	
+</script>
 
 <script type="text/javascript">
 	

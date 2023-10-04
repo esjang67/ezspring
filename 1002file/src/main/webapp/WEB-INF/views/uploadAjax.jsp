@@ -110,10 +110,10 @@
 	
 	function showImage(filePath) {
 
-	      $('.bigPictureWrapper').css('display', 'flex').show();
-	      
-	      $('.bigPicture').html('<img src="/controller/display?fileName=' + encodeURI(filePath) + '">')
-	                  .animate({width: '100%', height: '100%'}, 1000);
+      $('.bigPictureWrapper').css('display', 'flex').show();
+      
+      $('.bigPicture').html('<img src="/controller/display?fileName=' + encodeURI(filePath) + '">')
+                  .animate({width: '100%', height: '100%'}, 1000);
 	      
    }
    
