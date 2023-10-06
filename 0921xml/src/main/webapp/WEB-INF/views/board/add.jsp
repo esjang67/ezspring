@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ include file="../includes/header.jsp"%>
 
 <style>
@@ -83,7 +84,8 @@
                
                <div class="form-group">
                   <label>Writer</label>
-                  <input class="form-control" name="writer">
+                  <input class="form-control" name="writer" value='<sec:authentication property="principal.username"/>' readonly="readonly" >
+                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">	
                </div>
                
                <!-- 첨부파일 -->

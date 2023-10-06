@@ -1,11 +1,15 @@
 package com.board.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,11 +54,13 @@ public class BoardContoller {
 	}
 	
 	@GetMapping("/add")
+	@PreAuthorize("isAuthenticated()")	// 시큐리티에서. 메서드 실행전에 로그인한 사용자인가 체크 로그인안하면 로그인페이지로 이동
 	public void addPage() {
 		// 입력 화면으로 전환
 	}
 	
 	@PostMapping("/add")
+	@PreAuthorize("isAuthenticated()")	
 	public String add(BoardVO board, RedirectAttributes attr) {	// RedirectAttributes attr 리다이랙트에 데이터 저장해서 보냄
 		boardService.add(board);		
 		attr.addFlashAttribute("result", board.getBno());	// 화면에 출력할 게시물번호만 저장
@@ -81,13 +87,39 @@ public class BoardContoller {
 	
 	@GetMapping("/remove")
 	public String remove(Long bno, RedirectAttributes attr, Paging paging) {
+		
+		List<BoardAttachVO> attachList = boardService.getAttachList(bno);
+		
 		if(boardService.remove(bno)) {
+			deleteFile(attachList);	
 			attr.addFlashAttribute("result","삭제 성공");
 		} else {
 			attr.addFlashAttribute("result","삭제 실패");
 		}
 		attr.addFlashAttribute("paging", paging);
 		return "redirect:/board/list";
+	}
+	
+	// 서버에 있는 첨부파일도 삭제해야함
+	public void deleteFile(List<BoardAttachVO> attachList) {
+		if(attachList == null || attachList.size() == 0) {
+			return;
+		}
+		
+		attachList.forEach(attach -> {
+			try {
+				Path file = Paths.get("d:\\upload\\" + attach.getUploadPath() + "\\" + attach.getUuid() + "_" + attach.getFileName());
+				Files.delete(file);
+				
+				if(Files.probeContentType(file).startsWith("image")){
+					file = Paths.get("d:\\upload\\" + attach.getUploadPath() + "\\s_" + attach.getUuid() + "_" + attach.getFileName());
+					Files.delete(file);	
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 	}
 	
 }

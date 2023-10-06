@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.study.mapper.MemberMapper">
+
+	<!-- MemberVO에서 선언한 private List<AuthVO> authList; -->
+	<resultMap type="com.study.domain.MemberVO" id="memberMap">
+		<id property="userid" column="userid" />
+		<result property="userpw" column="userpw" />
+		<result property="username" column="username" />
+		<result property="regdate" column="regdate" />
+		<result property="updatedate" column="updatedate" />
+		<result property="enabled" column="enabled" />
+		
+		<collection property="authList" resultMap="authMap" />
+	</resultMap>
+	
+	<resultMap type="com.study.domain.AuthVO" id="authMap">
+		<result property="userid" column="userid"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+	
+	<!-- resultMap : 바이딩할 타입을 직접 설정 MemberVO에 선언한 권한변수 이름이 authList라서 select한 컬럼이랑 다르므로 -->
+	<select id="read" resultMap="memberMap" >
+		select 
+			mem.userid, userpw, username, regdate, updatedate, enabled, auth
+		from tbl_member mem left outer join tbl_member_auth auth on auth.userid=mem.userid
+		where mem.userid=#{userid}
+				
+	</select>
+	
+
+
+</mapper>

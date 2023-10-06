@@ -51,14 +51,30 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
+	@Transactional
 	@Override
 	public boolean remove(Long bno) {
+		boardAttachMapper.deleteAll(bno);
 		return (boardMapper.delete(bno) == 1);
 	}
 
+	@Transactional
 	@Override
 	public boolean modify(BoardVO vo) {
-		return boardMapper.update(vo) == 1;
+		
+		boolean result = boardMapper.update(vo) == 1;
+		
+		if(result && vo.getAttachList() != null && vo.getAttachList().size() > 0) {
+			// 기존 첨부파일 db 삭제
+			boardAttachMapper.deleteAll(vo.getBno());
+
+			vo.getAttachList().forEach(attach -> {
+				attach.setBno(vo.getBno());		// 게시글번호 셋팅
+				boardAttachMapper.insert(attach);
+			});
+		}
+		
+		return result;
 	}
 
 	@Override

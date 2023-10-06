@@ -18,5 +18,15 @@
 	<select id="findByBno" resultType="com.board.domain.BoardAttachVO">
 		select * from tbl_attach where bno=#{bno}
 	</select>
+	
+	<!-- 게시글 관련 첨부파일 삭제용 -->	
+	<delete id="deleteAll">
+		delete from tbl_attach where bno=#{bno}
+	</delete>
+	
+	<!-- 첨부파일은 올린 날짜 폴더로 올라가므로 이전일자는 체크할 필요없음 어제날짜만 체크 하면 됨 -->
+	<select id="getList" resultType="com.board.domain.BoardAttachVO">
+		select * from tbl_attach where uploadpath = to_char(sysdate -1, 'yyyy\MM\dd')
+	</select>
 
 </mapper>

@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <%@ include file="../includes/header.jsp"%>
 
 <style>
@@ -104,7 +106,16 @@
 				</div>
 								
 				<%-- <button class="btn btn-default" onclick="location.href='/board/modify?pageNum=${paging.pageNum}&amount=${paging.amount}&bno=${board.bno}'">게시글 수정</button> --%>
-				<button class="btn btn-default" data-oper="modify">게시글 수정</button>
+				
+				<!-- 로그인 안한사람 + 글작성자 아닌사람은 수정버튼 안보이게 하기 -->
+				<sec:authentication property="principal" var="pinfo" />	<!-- 변수에 저장 -->
+				
+				<sec:authorize access="isAuthenticated()">	
+					<c:if test="${pinfo.username eq board.writer}">  <!-- eq : equal임. == 처럼 사용함 -->
+						<button class="btn btn-default" data-oper="modify">게시글 수정</button>
+					</c:if>
+				</sec:authorize>
+				
 				<button class="btn btn-default" data-oper="list">목록</button>
 
 				<form id="actionForm" action="/board/modify" method="get">
@@ -241,14 +252,21 @@
 		path = encodeURIComponent(path);
 		
 		if($(this).data('type')){
-			
+			showImage(path);
 		} else {
 			// 일반파일: 다운로드됨
 			location='/download?fileName=' + path;
 		}
 		
-		
-		
+	})
+	
+	function showImage(path) {
+		$('.bigPictureWrapper').css('display', 'flex').show();
+		$('.bigPicture').html('<img src="/display?fileName=' + path + '">')
+	}
+	
+	$('.bigPictureWrapper').on('click', function(){
+		$('.bigPictureWrapper').css('display', 'none').hide();
 	})
 	
 	

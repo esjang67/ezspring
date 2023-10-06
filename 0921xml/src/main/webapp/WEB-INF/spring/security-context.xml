@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="customAccessDeniedHandler" class="com.study.security.CustomAccessDeniedHandler"></bean>
+	
+	<!-- 기본db사용 암호화 관련(암호화안함 -->
+	<!-- <bean id="customPasswordEncoder"	 class="com.study.security.CustomPasswordEncoder" ></bean> -->
+	
+	<!-- 비번 암호화 해주는 클래스 추가 -->
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	
+	<bean id="customUserDetailsService" class="com.study.security.CustomUserDetailsService"></bean>
+	
+	<security:http>
+		<security:intercept-url pattern="/all" access="permitAll" />
+		<security:intercept-url pattern="/member" access="hasRole('ROLE_MEMBER')" />	<!-- 페이지 사용 가능자 설정 -->
+		<security:intercept-url pattern="/admin"  access="hasRole('ROLE_ADMIN')" />
+		
+		<!-- 로그인 페이지 만듬: login-page="/customLogin" 추가함 -->
+		<security:form-login login-page="/customLogin" />  
+		
+		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me, JSESSIONID" />
+		
+		<!-- <security:access-denied-handler error-page="/accessError" /> 접근권한없음 사용자 에러페이지 -->
+		<security:access-denied-handler ref="customAccessDeniedHandler" /> <!-- 접근권한없음 사용자 에러페이지 -->
+		<!-- 
+			위의 것으로만 하면 1개의 에러 페이지만 할수있음
+			그래서 AccessDeniedHandler interface로 구현하면 커스텀 등등이 가능함
+			CustomAccessDeniedHandler 를 구현하고 위에 빈으로 등록함
+		 -->
+		 
+		 <!-- 자동로그인 db로 저장 -->
+		 <security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" /> <!-- always-remember-me="true" : 자동로그인 자동으로 저장 -->
+		 
+		 
+	</security:http>
+	
+	<security:authentication-manager>
+	
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<security:password-encoder ref="bcryptPasswordEncoder" />
+		</security:authentication-provider>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+	</security:authentication-manager>
+
+</beans>

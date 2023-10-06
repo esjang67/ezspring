@@ -11,6 +11,11 @@ public interface BoardAttachMapper {
 	public void delete(String uuid);
 	
 	public List<BoardAttachVO> findByBno(Long bno);
+	
+	public void deleteAll(Long bno);		// void 대신 삭제갯수를 받아도됨..
+	
+	// 테이블 전체 목록조회
+	public List<BoardAttachVO> getList();
 		
 }
 
