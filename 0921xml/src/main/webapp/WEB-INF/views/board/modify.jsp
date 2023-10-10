@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ include file="../includes/header.jsp"%>
 
 <style>
@@ -103,10 +104,15 @@
 			        </div>
 			  </div>              
               
-              <button data-oper="modify" class="btn btn-primary">수정</button>
-              <button data-oper="remove" class="btn btn-danger">삭제</button>
+              <sec:authentication property="principal" var="pinfo"/>
+              <c:if test="${pinfo.username eq board.writer}">
+	              <button data-oper="modify" class="btn btn-primary">수정</button>
+	              <button data-oper="remove" class="btn btn-danger">삭제</button>
+              </c:if>
               <button data-oper="list" class="btn btn-default">목록</button>
               
+              <!-- 다른 사용자가 작업을 날릴수 없도록 막아줌 -->
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
               
 			  <input type="hidden" class="type" name="type" value="${paging.type}"> 
 			  <input type="hidden" class="keyword" name="keyword" value="${paging.keyword}">               

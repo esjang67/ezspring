@@ -75,6 +75,7 @@ public class BoardContoller {
 	}
 	
 	@PostMapping("/modify")
+	@PreAuthorize("principal.username == #board.writer")  //vo의 board의 작성자와 로그인사용자와 같으면 실행해
 	public String modify(BoardVO board, RedirectAttributes attr, Paging paging) {
 		if(boardService.modify(board)) {
 			attr.addFlashAttribute("result", "수정 완료");
@@ -86,7 +87,8 @@ public class BoardContoller {
 	}
 	
 	@GetMapping("/remove")
-	public String remove(Long bno, RedirectAttributes attr, Paging paging) {
+	@PreAuthorize("principal.username == #writer")  //vo의 board의 작성자와 로그인사용자와 같으면 실행해
+	public String remove(Long bno, RedirectAttributes attr, Paging paging, String writer) {
 		
 		List<BoardAttachVO> attachList = boardService.getAttachList(bno);
 		

@@ -123,6 +123,11 @@
 <!-- 첨부파일을 서버에 올려야 섬네일이 보임 -->
 <script>
 	let formObj = $('form');
+	const csrfHeaderName = "${_csrf.headerName}";
+	const csrfToken = "${_csrf.token}";
+	
+	console.log(csrfHeaderName + " " + csrfToken);
+	
 	$('button[type="submit"]').on('click', function(e) {
 		e.preventDefault();
 		
@@ -158,6 +163,7 @@
 	
 	$('.uploadResult').on('click','button', function(e){
 		e.preventDefault();
+		
 		let fileName = $(this).data('file');
 		let type = $(this).data('type');
 		let li = $(this).closest('li');	// 부모 li를 찾아줘
@@ -169,6 +175,11 @@
 				fileName: fileName,
 				type: type
 			},
+			/* 시큐리티 추가로 화면 출력을 위한 헤더 값 추가 */
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(csrfHeaderName, csrfToken);
+			},
+			
 			success: function(result){
 				li.remove();	// 화면 li 태그 지움
 			}
@@ -229,9 +240,13 @@
 			processData: false,
 			contentType: false,
 			data: formData,
+			/* 시큐리티 추가로 화면 출력을 위한 헤더 값 추가 */
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(csrfHeaderName, csrfToken);
+			},
 			
 			success:function(result){
-				console.log(result);
+				// console.log(result);
 				showUploadResult(result);
 			}
 		})

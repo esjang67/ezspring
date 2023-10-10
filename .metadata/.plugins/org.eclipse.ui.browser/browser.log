@@ -61,3 +61,22 @@
 10월 06, 2023 16:27:09.448 NEW SESSION
 10월 06, 2023 16:27:09.448 INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
 10월 06, 2023 16:54:45.957 INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+
+10월 10, 2023 09:33:02.421 NEW SESSION
+10월 10, 2023 09:33:02.421 INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+10월 10, 2023 10:17:42.961 [15452:1428:1010/101742.960:ERROR:CONSOLE(1)] "Request Runtime.evaluate failed. {"code":-32602,"message":"uniqueContextId not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+10월 10, 2023 10:17:42.961 [15452:1428:1010/101742.961:ERROR:CONSOLE(1)] "uniqueContextId not found", source: devtools://devtools/bundled/devtools-frontend/front_end/core/sdk/sdk.js (1)
+10월 10, 2023 10:17:42.962 [15452:1428:1010/101742.961:ERROR:CONSOLE(1)] "Extension server error: Inspector protocol error: uniqueContextId not found", source: devtools://devtools/bundled/devtools-frontend/front_end/models/extensions/extensions.js (1)
+10월 10, 2023 10:17:42.976 [15452:1428:1010/101742.975:ERROR:CONSOLE(1)] "Received error with code E_PROTOCOLERROR while checking if react has loaded: "Inspector protocol error: %s"", source: chrome-extension://fmkadmapgofadopljbjfkapdkoienihi/build/main.js (1)
+10월 10, 2023 11:36:49.180 [15452:1428:1010/113649.166:ERROR:CONSOLE(1)] "Request Runtime.evaluate failed. {"code":-32602,"message":"uniqueContextId not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+10월 10, 2023 11:36:49.195 [15452:1428:1010/113649.167:ERROR:CONSOLE(1)] "uniqueContextId not found", source: devtools://devtools/bundled/devtools-frontend/front_end/core/sdk/sdk.js (1)
+10월 10, 2023 11:36:49.195 [15452:1428:1010/113649.168:ERROR:CONSOLE(1)] "Extension server error: Inspector protocol error: uniqueContextId not found", source: devtools://devtools/bundled/devtools-frontend/front_end/models/extensions/extensions.js (1)
+10월 10, 2023 11:36:49.235 [15452:1428:1010/113649.235:ERROR:CONSOLE(1)] "Received error with code E_PROTOCOLERROR while checking if react has loaded: "Inspector protocol error: %s"", source: chrome-extension://fmkadmapgofadopljbjfkapdkoienihi/build/main.js (1)
+10월 10, 2023 11:41:06.53 [15452:1428:1010/114106.053:ERROR:CONSOLE(1)] "Request Runtime.evaluate failed. {"code":-32602,"message":"uniqueContextId not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+10월 10, 2023 11:41:06.55 [15452:1428:1010/114106.054:ERROR:CONSOLE(1)] "uniqueContextId not found", source: devtools://devtools/bundled/devtools-frontend/front_end/core/sdk/sdk.js (1)
+10월 10, 2023 11:41:06.55 [15452:1428:1010/114106.054:ERROR:CONSOLE(1)] "Extension server error: Inspector protocol error: uniqueContextId not found", source: devtools://devtools/bundled/devtools-frontend/front_end/models/extensions/extensions.js (1)
+10월 10, 2023 11:41:06.62 [15452:1428:1010/114106.061:ERROR:CONSOLE(1)] "Received error with code E_PROTOCOLERROR while checking if react has loaded: "Inspector protocol error: %s"", source: chrome-extension://fmkadmapgofadopljbjfkapdkoienihi/build/main.js (1)
+10월 10, 2023 11:49:27.128 [15452:1428:1010/114927.127:ERROR:CONSOLE(1)] "Request Runtime.evaluate failed. {"code":-32602,"message":"uniqueContextId not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+10월 10, 2023 11:49:27.130 [15452:1428:1010/114927.129:ERROR:CONSOLE(1)] "uniqueContextId not found", source: devtools://devtools/bundled/devtools-frontend/front_end/core/sdk/sdk.js (1)
+10월 10, 2023 11:49:27.131 [15452:1428:1010/114927.131:ERROR:CONSOLE(1)] "Extension server error: Inspector protocol error: uniqueContextId not found", source: devtools://devtools/bundled/devtools-frontend/front_end/models/extensions/extensions.js (1)
+10월 10, 2023 11:49:27.283 [15452:1428:1010/114927.283:ERROR:CONSOLE(1)] "Received error with code E_PROTOCOLERROR while checking if react has loaded: "Inspector protocol error: %s"", source: chrome-extension://fmkadmapgofadopljbjfkapdkoienihi/build/main.js (1)

@@ -145,7 +145,10 @@
       <div class='panel panel-default'>
          <div class='panel-heading'>
             <i class='fa fa-comments fa-fw'></i> 댓글
-            <button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>댓글달기</button>
+            
+            <sec:authorize access="isAuthenticated()">
+            	<button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>댓글달기</button>
+            </sec:authorize>
          </div>
          
          <div class='panel-body'>
@@ -196,8 +199,10 @@
          </div>
          
          <div class='modal-footer'>
+         	<!-- 작성자가 아니면 버튼 안보이게 해도됨 -->
             <button id='modalModBtn' type='button' class='btn btn-warning' data-dismiss='modal'>수정</button>
             <button id='modalRemoveBtn' type='button' class='btn btn-danger' data-dismiss='modal'>삭제</button>
+            
             <button id='modalRegisterBtn' type='button' class='btn btn-primary' data-dismiss='modal'>등록</button>            
             <button id='modalCloseBtn' type='button' class='btn btn-default' data-dismiss='modal'>닫기</button>
             
@@ -211,6 +216,20 @@
 <script src="/resources/js/reply.js"></script>	
 
 <script>
+	// 시큐리티 관련 댓글 추가안되는 문제로 추가함!!
+	const csrfHeaderName = "${_csrf.headerName}";
+	const csrfToken = "${_csrf.token}";
+	// 댓글 작성자
+	let replyer = null;
+	<sec:authorize access="isAuthenticated()">
+		replyer = '<sec:authentication property="principal.username" />';
+	</sec:authorize>
+
+	// 모든 서버요청 전에 작동시켜 헤더셋팅 해줘(일괄처리) : 서버요청은 reply.js에서 따로함
+	$(document).ajaxSend(function(e, xhr, options){
+		xhr.setRequestHeader(csrfHeaderName, csrfToken);
+	})
+	
 	/* 첨부파일 */
 	
 	const bno = '<c:out value="${board.bno}"/>';
@@ -343,6 +362,19 @@
 	modalRemoveBtn.on('click', function(){
 		const rno = modal.data('rno');
 		
+		// 로그인 안했을때 버튼클릭안되도록
+		if(!replyer){
+			alert("로그인 후 사용 가능!");
+			modal.modal('hide');
+			return;
+		}
+		// 로그인했는데 작성자가 다른경우
+		if(replyer != modalInputReplyer.val()){
+			alert("작성자만 사용 가능!");
+			modal.modal('hide');
+			return;	
+		}
+		
 		replyService.remove(rno,
 				function(result){
 
@@ -355,6 +387,20 @@
 	})
 	
 	modalModBtn.on('click', function(){
+
+		// 로그인 안했을때 버튼클릭안되도록
+		if(!replyer){
+			alert("로그인 후 사용 가능!");
+			modal.modal('hide');
+			return;
+		}
+		// 로그인했는데 작성자가 다른경우
+		if(replyer != modalInputReplyer.val()){
+			alert("작성자만 사용 가능!");
+			modal.modal('hide');
+			return;	
+		}
+		
 		const rno = modal.data('rno')
 		
 		let reply = {
@@ -384,6 +430,7 @@
 		modalRegisterBtn.show();
 
 		modal.find('input').val('');
+		modal.find('input[name="replyer"]').val(replyer);		// 댓글작성자는 현재 로그인한 사용자 자동 입력
 		
 		modal.modal('show');
 	})	
